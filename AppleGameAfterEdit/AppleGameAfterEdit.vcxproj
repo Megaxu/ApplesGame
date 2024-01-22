@@ -164,6 +164,7 @@
     <ClCompile Include="GameMain.cpp" />
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Leaderboard.cpp" />
     <ClCompile Include="Stone.cpp" />
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
@@ -172,6 +173,7 @@
     <ClInclude Include="Background.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Leaderboard.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Stone.h" />

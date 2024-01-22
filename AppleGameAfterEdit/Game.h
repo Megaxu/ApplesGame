@@ -8,8 +8,12 @@
 #include "Stone.h"
 #include "UI.h"
 #include "Background.h"
+#include "Leaderboard.h"
 
 namespace ApplesGame {
+
+	// TODO finish game if apples count equals zero
+	// TODO: don't generate stone near start position
 
 	enum GameMode {
 
@@ -35,6 +39,9 @@ namespace ApplesGame {
 
 		// Background data
 		Background background;
+
+		// Leaderboard data
+		Leaderboard leaderboard;
 
 		// Global game data
 		int numEatenApples = 0;

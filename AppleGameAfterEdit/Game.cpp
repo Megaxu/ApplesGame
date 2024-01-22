@@ -5,8 +5,8 @@
 namespace ApplesGame {
 
 	void RestartGame(Game& game) {
+		
 		// Init background
-		// I decided not to remove the background
 		InitBackground(game.background);
 
 		// Init player
@@ -54,8 +54,8 @@ namespace ApplesGame {
 		// Init UI
 		InitUI(game.uiState, game.font);
 
-		// Random apples count
-		//game.numApples = rand() % 30 + 5;
+		// Init leaderboard
+		InitLeaderboard(game.leaderboard, game.font);
 
 		RestartGame(game);
 	}
@@ -102,7 +102,7 @@ namespace ApplesGame {
 			HandlerInput(game);
 
 			if (game.isGameMenuOpen) {
-				UpdateUI(game.uiState, game, deltaTime);
+				UpdateUI(game.uiState, game);
 				return;
 			}
 
@@ -151,7 +151,7 @@ namespace ApplesGame {
 				RestartGame(game);
 			}
 		}
-		UpdateUI(game.uiState, game, deltaTime);
+		UpdateUI(game.uiState, game);
 	}
 
 	void DrawGame(Game& game, sf::RenderWindow& window) {
@@ -161,6 +161,8 @@ namespace ApplesGame {
 
 		// Draw player
 		DrawPlayer(game.player, window);
+
+		DrawLeaderboard(game.leaderboard, window);
 
 		// Draw apples
 		for (Apple* ptr = game.apples; ptr < game.apples + game.numApples; ++ptr) {

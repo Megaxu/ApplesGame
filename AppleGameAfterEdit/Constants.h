@@ -15,4 +15,6 @@ namespace ApplesGame {
 	const int NUM_STONES = 5;
 	const float STONE_SIZE = 40.f;
 	const float TIMEOUT = 3.f;
+	const int LEADERBOARD_SIZE = 5;
+	const std::string names[10] = { "Boss", "BigBoss", "Killer123", "Molodec", "Halk", "Leader", "Zombie", "Max", "Min", "Unknown" };
 }

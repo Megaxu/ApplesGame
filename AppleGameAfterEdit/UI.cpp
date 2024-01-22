@@ -32,9 +32,11 @@ namespace ApplesGame {
 		uiState.startHintText.setFont(font);
 		uiState.startHintText.setCharacterSize(24);
 		uiState.startHintText.setFillColor(sf::Color::White);
+
+		//
 	}
 
-	void UpdateUI(UIState& uiState, const Game& game, float deltaTime) {
+	void UpdateUI(UIState& uiState, const Game& game) {
 		uiState.scoreText.setString("Apples eaten: " + std::to_string(game.numEatenApples));
 		uiState.startHintText.setString("Use:\n1 - Limited apples mode - " + uiState.firtsOptionInfo + "\n2 - Accelerated movement mode - " + uiState.secondOptionInfo + "\nSpace - start game\nESC to exit");
 		uiState.isGameOverTextVisible = game.isGameFinished;
@@ -51,10 +53,10 @@ namespace ApplesGame {
 			window.draw(uiState.inputHintText);
 		}
 
-		if (uiState.isGameOverTextVisible) {
-			uiState.gameOverText.setPosition(window.getSize().x / 2.f, window.getSize().y / 2.f);
-			window.draw(uiState.gameOverText);
-		}
+		//if (uiState.isGameOverTextVisible) {
+		//	uiState.gameOverText.setPosition(window.getSize().x / 2.f, window.getSize().y / 2.f);
+		//	window.draw(uiState.gameOverText);
+		//}
 
 		if (uiState.isStartGameTextVisible) {
 			uiState.startHintText.setPosition(10.f, 10.f);
