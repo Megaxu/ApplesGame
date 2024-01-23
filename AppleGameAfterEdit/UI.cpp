@@ -53,10 +53,12 @@ namespace ApplesGame {
 			window.draw(uiState.inputHintText);
 		}
 
-		//if (uiState.isGameOverTextVisible) {
-		//	uiState.gameOverText.setPosition(window.getSize().x / 2.f, window.getSize().y / 2.f);
-		//	window.draw(uiState.gameOverText);
-		//}
+		if (uiState.isGameOverTextVisible) {
+			uiState.gameOverText.setPosition(window.getSize().x / 2.f, window.getSize().y / 2.f);
+			window.draw(uiState.gameOverText);
+		}
+
+		// 
 
 		if (uiState.isStartGameTextVisible) {
 			uiState.startHintText.setPosition(10.f, 10.f);

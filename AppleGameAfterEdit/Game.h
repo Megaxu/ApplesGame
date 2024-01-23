@@ -23,7 +23,7 @@ namespace ApplesGame {
 
 	struct Game {
 
-		int numApples = rand() % 30 + 5;
+		int numApples = rand() % 20 + 10;
 
 		// Player data
 		Player player;
@@ -42,6 +42,8 @@ namespace ApplesGame {
 
 		// Leaderboard data
 		Leaderboard leaderboard;
+
+		Result playerResult;
 
 		// Global game data
 		int numEatenApples = 0;
@@ -76,4 +78,5 @@ namespace ApplesGame {
 	void PlayGameOverSound(Game& game);
 	void DeinitGame(Game& game);
 	void SetGameMode(Game& game, int mode);
+	void OpenLeaderboard(Game& game, sf::RenderWindow& window);
 }

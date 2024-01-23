@@ -54,6 +54,9 @@ namespace ApplesGame {
 		// Init UI
 		InitUI(game.uiState, game.font);
 
+		// Init playerResult
+		InitResult(game.playerResult, "Player");
+
 		// Init leaderboard
 		InitLeaderboard(game.leaderboard, game.font);
 
@@ -162,8 +165,6 @@ namespace ApplesGame {
 		// Draw player
 		DrawPlayer(game.player, window);
 
-		DrawLeaderboard(game.leaderboard, window);
-
 		// Draw apples
 		for (Apple* ptr = game.apples; ptr < game.apples + game.numApples; ++ptr) {
 			DrawApple(*ptr, window);
@@ -175,6 +176,8 @@ namespace ApplesGame {
 		}
 
 		DrawUI(game.uiState, window);
+
+		DrawLeaderboard(game.leaderboard, window);
 	}
 
 	void PlayAppleEatSound(Game& game) {
@@ -213,5 +216,7 @@ namespace ApplesGame {
 			break;
 		}
 		}
+	}
+	void OpenLeaderboard(Game& game, sf::RenderWindow& window) {
 	}
 }
