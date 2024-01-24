@@ -50,8 +50,8 @@ namespace ApplesGame {
 		bool isGameFinished = false;
 		float gameFinishTime = 0.f;
 		bool isGameMenuOpen = true;
+		bool isLeaderboardOpen = false;
 		int gameMode = 0;
-		
 
 		// Resources
 		sf::Texture playerTexture;
@@ -78,5 +78,6 @@ namespace ApplesGame {
 	void PlayGameOverSound(Game& game);
 	void DeinitGame(Game& game);
 	void SetGameMode(Game& game, int mode);
-	void OpenLeaderboard(Game& game, sf::RenderWindow& window);
+	void SetPlayerResult(Game& game);
+	void OpenLeaderboard(Game& game);
 }
