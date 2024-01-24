@@ -3,52 +3,67 @@
 
 namespace ApplesGame {
 	
-	void InitResult(Result& result, std::string name) {
+	void InitResult(Result& result, std::string name, int score) {
 		result.name = name;
-		result.score = rand() % 20 + 10;
+		result.score = score;
 	}
 
-	void InitLeaderboard(Leaderboard& leaderboard, const sf::Font& font) {
-		for (Result& result : leaderboard.results) {
-			InitResult(result, NAMES[0]);
+	void InitLeaderboard(Leaderboard& leaderboard, Game& game) {
+		for (int i = 0; i < LEADERBOARD_PLAYERS_COUNT - 1; ++i) {
+			InitResult(leaderboard.results[i], NAMES[0], rand() % 20 + 10);
 		}
-
-		leaderboard.leaderboardBackground.setSize(sf::Vector2f(LEADERBOARD_SCREEN_WIDTH, LEADERBOARD_SCREEN_HEIGHT));
-		leaderboard.leaderboardBackground.setOrigin(LEADERBOARD_SCREEN_WIDTH / 2, LEADERBOARD_SCREEN_HEIGHT / 2);
-		leaderboard.leaderboardBackground.setFillColor(sf::Color::White);
-
-		leaderboard.header.setFont(font);
-		leaderboard.header.setCharacterSize(36);
-		leaderboard.header.setStyle(sf::Text::Bold);
-		leaderboard.header.setFillColor(sf::Color::Black);
-		leaderboard.header.setString("Leaderboard!");
-		SetTextRelativeOrigin(leaderboard.header, 0.5f, 0.5f);
-
-		for (int i = 0; i < LEADERBOARD_PLAYERS_COUNT; ++i) {
-			leaderboard.placesText[i].setFont(font);
-			leaderboard.placesText[i].setCharacterSize(24);
-			//leaderboard.placesText[i].setStyle(sf::Text::Bold);
-			leaderboard.placesText[i].setFillColor(sf::Color::Black);
-			leaderboard.placesText[i].setString(leaderboard.results[i].name + " | " + std::to_string(leaderboard.results[i].score));
-			SetTextRelativeOrigin(leaderboard.placesText[i], 0.5f, 0.5f);
-		}
-
+		leaderboard.results[LEADERBOARD_PLAYERS_COUNT - 1] = game.playerResult;
 	}
 
 	void UpdateLeaderboard(Leaderboard& leaderboard, const Game& game) {
-
+		SortLeaderBoard(leaderboard, LEADERBOARD_PLAYERS_COUNT);
+		SearchAndReplace(leaderboard, game);	
 	}
 
-	void DrawLeaderboard(Leaderboard& leaderboard, sf::RenderWindow& window) {
-		leaderboard.leaderboardBackground.setPosition(window.getSize().x / 2.f, window.getSize().y / 2.f);
-		window.draw(leaderboard.leaderboardBackground);
+//	void SortLeaderBoard(Leaderboard& leaderboard, int start, int size) {
+//;
+//		int pivot = leaderboard.results[size / 2].score;
+//		int left = start;
+//		int right = size - 1;
+//
+//		while (leaderboard.results[left].score <= leaderboard.results[right].score) {
+//			while (leaderboard.results[left].score < pivot) {
+//				++left;
+//			}
+//			while (leaderboard.results[right].score > pivot) {
+//				--right;
+//			}
+//			if (left <= right) {
+//				int tempScore = leaderboard.results[left].score;
+//				std::string tempName = leaderboard.results[left].name;
+//				leaderboard.results[left].score = leaderboard.results[right].score;
+//				leaderboard.results[left].name = leaderboard.results[right].name;
+//				leaderboard.results[right].score = tempScore;
+//				leaderboard.results[right].name = tempName;
+//				++left;
+//				--right;
+//			}
+//		}
+//
+//		SortLeaderBoard(leaderboard, 0, right + 1);
+//		SortLeaderBoard(leaderboard, left, size - left);
+//	}
 
-		leaderboard.header.setPosition(window.getSize().x / 2.f, (SCREEN_HEIGHT / 3) - 30);
-		window.draw(leaderboard.header);
+	void SortLeaderBoard(Leaderboard& leaderboard, int size) {
 
-		for (int i = 0; i < LEADERBOARD_PLAYERS_COUNT; ++i) {
-			leaderboard.placesText[i].setPosition(window.getSize().x / 2.f, (SCREEN_HEIGHT / 2.75) + i * 50);
-			window.draw(leaderboard.placesText[i]);
+		for (int i = 0; i < size; i++) {
+			if (leaderboard.results[i].score > leaderboard.results[i + 1].score) {
+				int tempScore = leaderboard.results[i].score;
+				std::string tempName = leaderboard.results[i].name;
+				leaderboard.results[i].score = leaderboard.results[i + 1].score;
+				leaderboard.results[i].name = leaderboard.results[i + 1].name;
+				leaderboard.results[i + 1].score = tempScore;
+				leaderboard.results[i + 1].name = tempName;
+			}
 		}
+	}
+
+	void SearchAndReplace(Leaderboard& leaderboard, const Game& game) {
+
 	}
 }

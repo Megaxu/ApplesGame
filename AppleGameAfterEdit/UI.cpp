@@ -34,6 +34,23 @@ namespace ApplesGame {
 		uiState.startHintText.setFillColor(sf::Color::White);
 
 		//
+		uiState.leaderboardBackground.setSize(sf::Vector2f(LEADERBOARD_SCREEN_WIDTH, LEADERBOARD_SCREEN_HEIGHT));
+		uiState.leaderboardBackground.setOrigin(LEADERBOARD_SCREEN_WIDTH / 2, LEADERBOARD_SCREEN_HEIGHT / 2);
+		uiState.leaderboardBackground.setFillColor(sf::Color::White);
+
+		uiState.headerLeaderboard.setFont(font);
+		uiState.headerLeaderboard.setCharacterSize(36);
+		uiState.headerLeaderboard.setStyle(sf::Text::Bold);
+		uiState.headerLeaderboard.setFillColor(sf::Color::Black);
+		uiState.headerLeaderboard.setString("Leaderboard!");
+		SetTextRelativeOrigin(uiState.headerLeaderboard, 0.5f, 0.5f);
+
+		for (int i = 0; i < LEADERBOARD_PLAYERS_COUNT; ++i) {
+			uiState.placesText[i].setFont(font);
+			uiState.placesText[i].setCharacterSize(24);
+			uiState.placesText[i].setFillColor(sf::Color::Black);	
+			SetTextRelativeOrigin(uiState.placesText[i], 0.5f, 0.5f);
+		}
 	}
 
 	void UpdateUI(UIState& uiState, const Game& game) {
@@ -41,6 +58,11 @@ namespace ApplesGame {
 		uiState.startHintText.setString("Use:\n1 - Limited apples mode - " + uiState.firtsOptionInfo + "\n2 - Accelerated movement mode - " + uiState.secondOptionInfo + "\nSpace - start game\nESC to exit");
 		uiState.isGameOverTextVisible = game.isGameFinished;
 		uiState.isStartGameTextVisible = game.isGameMenuOpen;
+		uiState.isLeaderboardVisible = game.isLeaderboardOpen;
+
+		for (int i = 0; i < LEADERBOARD_PLAYERS_COUNT; ++i) {
+			uiState.placesText[i].setString(game.leaderboard.results[i].name + " | " + std::to_string(game.leaderboard.results[i].score));
+		}
 	}
 
 	void DrawUI(UIState& uiState, sf::RenderWindow& window) {
@@ -59,6 +81,18 @@ namespace ApplesGame {
 		}
 
 		// 
+		if (uiState.isLeaderboardVisible) {
+			uiState.leaderboardBackground.setPosition(window.getSize().x / 2.f, window.getSize().y / 2.f);
+			window.draw(uiState.leaderboardBackground);
+
+			uiState.headerLeaderboard.setPosition(window.getSize().x / 2.f, (SCREEN_HEIGHT / 3) - 30);
+			window.draw(uiState.headerLeaderboard);
+
+			for (int i = 0; i < LEADERBOARD_PLAYERS_COUNT; ++i) {
+				uiState.placesText[i].setPosition(window.getSize().x / 2.f, (SCREEN_HEIGHT / 2.75f) + i * 50);
+				window.draw(uiState.placesText[i]);
+			}
+		}
 
 		if (uiState.isStartGameTextVisible) {
 			uiState.startHintText.setPosition(10.f, 10.f);

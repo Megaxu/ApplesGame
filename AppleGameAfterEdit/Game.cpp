@@ -30,6 +30,7 @@ namespace ApplesGame {
 		}
 
 		game.isGameFinished = false;
+		game.isLeaderboardOpen = false;
 		game.gameFinishTime = 0.f;
 	}
 
@@ -55,10 +56,10 @@ namespace ApplesGame {
 		InitUI(game.uiState, game.font);
 
 		// Init playerResult
-		InitResult(game.playerResult, "Player");
+		InitResult(game.playerResult, "Player", 0);
 
 		// Init leaderboard
-		InitLeaderboard(game.leaderboard, game.font);
+		InitLeaderboard(game.leaderboard, game);
 
 		RestartGame(game);
 	}
@@ -81,7 +82,14 @@ namespace ApplesGame {
 				SetGameMode(game, GameMode::AcceleratedMovement);
 			}
 
-			// We don't handle input in game over state
+			return;
+		}
+
+		if (game.isGameFinished) {
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+				
+				RestartGame(game);
+			}
 			return;
 		}
 
@@ -100,9 +108,10 @@ namespace ApplesGame {
 	}
 
 	void UpdateGame(Game& game, float deltaTime) {
-		if (!game.isGameFinished) {
-			// Handler for keyboard
-			HandlerInput(game);
+		
+		HandlerInput(game);
+
+		if (!game.isGameFinished) {		
 
 			if (game.isGameMenuOpen) {
 				UpdateUI(game.uiState, game);
@@ -146,14 +155,9 @@ namespace ApplesGame {
 
 		}
 		else {
-			if (game.gameFinishTime <= TIMEOUT) {
-				game.gameFinishTime += deltaTime;
-				SetBackgroundColor(game.background, sf::Color::Green);
-			}
-			else {
-				RestartGame(game);
-			}
+			SetBackgroundColor(game.background, sf::Color::Green);
 		}
+
 		UpdateUI(game.uiState, game);
 	}
 
@@ -176,8 +180,6 @@ namespace ApplesGame {
 		}
 
 		DrawUI(game.uiState, window);
-
-		DrawLeaderboard(game.leaderboard, window);
 	}
 
 	void PlayAppleEatSound(Game& game) {
@@ -192,6 +194,7 @@ namespace ApplesGame {
 		PlayGameOverSound(game);
 		game.isGameFinished = true;
 		game.gameFinishTime = 0.f;
+		OpenLeaderboard(game);
 	}
 
 	void InitSound(sf::SoundBuffer& soundBuffer, sf::Sound& sound, float volume) {
@@ -217,6 +220,14 @@ namespace ApplesGame {
 		}
 		}
 	}
-	void OpenLeaderboard(Game& game, sf::RenderWindow& window) {
+
+	void SetPlayerResult(Game& game) {
+		game.playerResult.score = game.numEatenApples;
+	}
+
+	void OpenLeaderboard(Game& game) {
+		SetPlayerResult(game);
+		UpdateLeaderboard(game.leaderboard, game);
+		game.isLeaderboardOpen = true;
 	}
 }

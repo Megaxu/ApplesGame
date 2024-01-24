@@ -12,15 +12,12 @@ namespace ApplesGame {
 
 	struct Leaderboard {
 		Result results[LEADERBOARD_PLAYERS_COUNT];
-
-		sf::RectangleShape leaderboardBackground;
-
-		sf::Text header;
-		sf::Text placesText[LEADERBOARD_PLAYERS_COUNT];
 	};
 
-	void InitResult(Result& result, std::string name);
-	void InitLeaderboard(Leaderboard& leaderboard, const sf::Font& font);
+	void InitResult(Result& result, std::string name, int score);
+	void InitLeaderboard(Leaderboard& leaderboard, struct Game& game);
 	void UpdateLeaderboard(Leaderboard& leaderboard, const struct Game& game);
-	void DrawLeaderboard(Leaderboard& leaderboard, sf::RenderWindow& window);
+	void SortLeaderBoard(Leaderboard& leaderboard, int size);
+	void SearchAndReplace(Leaderboard& leaderboard, const struct Game& game);
+
 }
