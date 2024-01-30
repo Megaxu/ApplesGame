@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "Constants.h"
 #include "Math.h"
+#include <string>
 
 namespace ApplesGame {
 
@@ -16,8 +17,9 @@ namespace ApplesGame {
 
 	void InitResult(Result& result, std::string name, int score);
 	void InitLeaderboard(Leaderboard& leaderboard, struct Game& game);
-	void UpdateLeaderboard(Leaderboard& leaderboard, const struct Game& game);
+	void UpdateLeaderboard(Leaderboard& leaderboard, struct Game& game);
 	void SortLeaderBoard(Leaderboard& leaderboard, int size);
-	void SearchAndReplace(Leaderboard& leaderboard, const struct Game& game);
-
+	void SearchAndReplace(Leaderboard& leaderboard, struct Game& game, int end);
+	std::string SetRandomName(int end);
+	bool CheckPlayer(Leaderboard& leaderboard, const struct Game& game);
 }

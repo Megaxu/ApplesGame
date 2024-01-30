@@ -3,56 +3,33 @@
 
 namespace ApplesGame {
 	
+	std::vector<std::string> NAMES { "Boss", "BigBoss", "Killer123", "Molodec", "Halk", "Leader", "Zombie", "Max", "Min", "Unknown" };
+
 	void InitResult(Result& result, std::string name, int score) {
 		result.name = name;
 		result.score = score;
 	}
 
 	void InitLeaderboard(Leaderboard& leaderboard, Game& game) {
-		for (int i = 0; i < LEADERBOARD_PLAYERS_COUNT - 1; ++i) {
-			InitResult(leaderboard.results[i], NAMES[0], rand() % 20 + 10);
+		
+		size_t size = NAMES.size();
+
+		for (int i = 0; i < LEADERBOARD_PLAYERS_COUNT; ++i) {
+			InitResult(leaderboard.results[i], SetRandomName(size - i - 1), rand() % 10 + 1);
+
 		}
-		leaderboard.results[LEADERBOARD_PLAYERS_COUNT - 1] = game.playerResult;
 	}
 
-	void UpdateLeaderboard(Leaderboard& leaderboard, const Game& game) {
+	void UpdateLeaderboard(Leaderboard& leaderboard, Game& game) {
 		SortLeaderBoard(leaderboard, LEADERBOARD_PLAYERS_COUNT);
-		SearchAndReplace(leaderboard, game);	
+		SearchAndReplace(leaderboard, game, LEADERBOARD_PLAYERS_COUNT);
+		game.isLeaderboardOpen = true;
 	}
-
-//	void SortLeaderBoard(Leaderboard& leaderboard, int start, int size) {
-//;
-//		int pivot = leaderboard.results[size / 2].score;
-//		int left = start;
-//		int right = size - 1;
-//
-//		while (leaderboard.results[left].score <= leaderboard.results[right].score) {
-//			while (leaderboard.results[left].score < pivot) {
-//				++left;
-//			}
-//			while (leaderboard.results[right].score > pivot) {
-//				--right;
-//			}
-//			if (left <= right) {
-//				int tempScore = leaderboard.results[left].score;
-//				std::string tempName = leaderboard.results[left].name;
-//				leaderboard.results[left].score = leaderboard.results[right].score;
-//				leaderboard.results[left].name = leaderboard.results[right].name;
-//				leaderboard.results[right].score = tempScore;
-//				leaderboard.results[right].name = tempName;
-//				++left;
-//				--right;
-//			}
-//		}
-//
-//		SortLeaderBoard(leaderboard, 0, right + 1);
-//		SortLeaderBoard(leaderboard, left, size - left);
-//	}
 
 	void SortLeaderBoard(Leaderboard& leaderboard, int size) {
 
 		for (int i = 0; i < size; i++) {
-			if (leaderboard.results[i].score > leaderboard.results[i + 1].score) {
+			if (leaderboard.results[i].score < leaderboard.results[i + 1].score) {
 				int tempScore = leaderboard.results[i].score;
 				std::string tempName = leaderboard.results[i].name;
 				leaderboard.results[i].score = leaderboard.results[i + 1].score;
@@ -63,7 +40,39 @@ namespace ApplesGame {
 		}
 	}
 
-	void SearchAndReplace(Leaderboard& leaderboard, const Game& game) {
+	void SearchAndReplace(Leaderboard& leaderboard, Game& game, int size) {
+		if (!CheckPlayer(leaderboard, game)) {
+			for (int i = size; i >= 0; i--) {
+				if (leaderboard.results[i].score < game.playerResult.score) {
+					leaderboard.results[i].score = game.playerResult.score;
+					leaderboard.results[i].name = game.playerResult.name;
+					game.playerPlace = i;
+				}
+			}
+		}
+		else {
+			if (leaderboard.results[game.playerPlace].score < game.playerResult.score) {
+				leaderboard.results[game.playerPlace].score = game.playerResult.score;
+			}
+		}
+	}
 
+	std::string SetRandomName(int end) {
+		int randomIndex = rand() % end;
+		std::string temp = NAMES[end];
+		NAMES[end] = NAMES[randomIndex];
+		NAMES[randomIndex] = temp;
+		
+		return NAMES[end];
+	}
+
+	bool CheckPlayer(Leaderboard& leaderboard, const Game& game) {
+		for (Result result : leaderboard.results) {
+			if (result.name == game.playerResult.name) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }

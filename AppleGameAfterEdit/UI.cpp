@@ -35,7 +35,7 @@ namespace ApplesGame {
 
 		//
 		uiState.leaderboardBackground.setSize(sf::Vector2f(LEADERBOARD_SCREEN_WIDTH, LEADERBOARD_SCREEN_HEIGHT));
-		uiState.leaderboardBackground.setOrigin(LEADERBOARD_SCREEN_WIDTH / 2, LEADERBOARD_SCREEN_HEIGHT / 2);
+		uiState.leaderboardBackground.setOrigin(LEADERBOARD_SCREEN_WIDTH / 2.f, LEADERBOARD_SCREEN_HEIGHT / 2.f);
 		uiState.leaderboardBackground.setFillColor(sf::Color::White);
 
 		uiState.headerLeaderboard.setFont(font);

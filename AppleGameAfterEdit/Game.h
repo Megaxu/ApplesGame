@@ -52,6 +52,7 @@ namespace ApplesGame {
 		bool isGameMenuOpen = true;
 		bool isLeaderboardOpen = false;
 		int gameMode = 0;
+		int playerPlace = -1;
 
 		// Resources
 		sf::Texture playerTexture;

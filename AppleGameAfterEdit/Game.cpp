@@ -1,6 +1,5 @@
 ﻿#include "Game.h"
 #include "cassert"
-#include <iostream>
 
 namespace ApplesGame {
 
@@ -156,6 +155,10 @@ namespace ApplesGame {
 		}
 		else {
 			SetBackgroundColor(game.background, sf::Color::Green);
+			if (!game.isLeaderboardOpen) {
+				
+			}
+			UpdateLeaderboard(game.leaderboard, game);
 		}
 
 		UpdateUI(game.uiState, game);
@@ -194,7 +197,7 @@ namespace ApplesGame {
 		PlayGameOverSound(game);
 		game.isGameFinished = true;
 		game.gameFinishTime = 0.f;
-		OpenLeaderboard(game);
+		SetPlayerResult(game);
 	}
 
 	void InitSound(sf::SoundBuffer& soundBuffer, sf::Sound& sound, float volume) {
@@ -223,11 +226,5 @@ namespace ApplesGame {
 
 	void SetPlayerResult(Game& game) {
 		game.playerResult.score = game.numEatenApples;
-	}
-
-	void OpenLeaderboard(Game& game) {
-		SetPlayerResult(game);
-		UpdateLeaderboard(game.leaderboard, game);
-		game.isLeaderboardOpen = true;
 	}
 }
