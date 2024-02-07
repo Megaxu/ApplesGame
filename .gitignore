@@ -1,5 +1,42 @@
-# temporary directories
-.vs
-x64
-x86
-*.user
+# Created by https://www.toptal.com/developers/gitignore/api/c++,games
+# Edit at https://www.toptal.com/developers/gitignore?templates=c++,games
+
+### C++ ###
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+### Games ###
+*.gam
+*.nes
+*.rom
+*.sav
