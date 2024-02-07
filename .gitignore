@@ -1,6 +1,12 @@
 # Created by https://www.toptal.com/developers/gitignore/api/c++,games
 # Edit at https://www.toptal.com/developers/gitignore?templates=c++,games
 
+# temporary directories
+.vs
+x64
+x86
+*.user
+
 ### C++ ###
 # Prerequisites
 *.d
