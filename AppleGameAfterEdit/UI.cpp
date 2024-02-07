@@ -35,7 +35,7 @@ namespace ApplesGame {
 
 		//
 		uiState.leaderboardBackground.setSize(sf::Vector2f(LEADERBOARD_SCREEN_WIDTH, LEADERBOARD_SCREEN_HEIGHT));
-		uiState.leaderboardBackground.setOrigin(LEADERBOARD_SCREEN_WIDTH / 2, LEADERBOARD_SCREEN_HEIGHT / 2);
+		uiState.leaderboardBackground.setOrigin(LEADERBOARD_SCREEN_WIDTH / 2.f, LEADERBOARD_SCREEN_HEIGHT / 2.f);
 		uiState.leaderboardBackground.setFillColor(sf::Color::White);
 
 		uiState.headerLeaderboard.setFont(font);
@@ -48,7 +48,7 @@ namespace ApplesGame {
 		for (int i = 0; i < LEADERBOARD_PLAYERS_COUNT; ++i) {
 			uiState.placesText[i].setFont(font);
 			uiState.placesText[i].setCharacterSize(24);
-			uiState.placesText[i].setFillColor(sf::Color::Black);	
+			uiState.placesText[i].setFillColor(sf::Color::Black);
 			SetTextRelativeOrigin(uiState.placesText[i], 0.5f, 0.5f);
 		}
 	}
@@ -89,7 +89,7 @@ namespace ApplesGame {
 			window.draw(uiState.headerLeaderboard);
 
 			for (int i = 0; i < LEADERBOARD_PLAYERS_COUNT; ++i) {
-				uiState.placesText[i].setPosition(window.getSize().x / 2.f, (SCREEN_HEIGHT / 2.75f) + i * 50);
+				uiState.placesText[i].setPosition(window.getSize().x / 2.5f, (SCREEN_HEIGHT / 2.75f) + i * 50);
 				window.draw(uiState.placesText[i]);
 			}
 		}

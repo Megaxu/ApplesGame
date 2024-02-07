@@ -1,11 +1,13 @@
 ﻿#include "Game.h"
 #include "cassert"
-#include <iostream>
 
 namespace ApplesGame {
 
 	void RestartGame(Game& game) {
-		
+
+		game.apples.clear();
+		game.stones.clear();
+
 		// Init background
 		InitBackground(game.background);
 
@@ -13,11 +15,14 @@ namespace ApplesGame {
 		InitPlayer(game.player, game);
 
 		// Init apples
-		for (Apple* ptr = game.apples; ptr < game.apples + game.numApples; ++ptr) {
-			InitApple(*ptr, game);
+		game.apples.resize(game.numApples);
+
+		for (Apple& apple : game.apples) {
+			InitApple(apple, game);
 		}
 
 		// Init stones
+		game.stones.resize(game.numStones);
 		for (Stone& stone : game.stones) {
 			InitStone(stone, game);
 		}
@@ -55,9 +60,6 @@ namespace ApplesGame {
 		// Init UI
 		InitUI(game.uiState, game.font);
 
-		// Init playerResult
-		InitResult(game.playerResult, "Player", 0);
-
 		// Init leaderboard
 		InitLeaderboard(game.leaderboard, game);
 
@@ -87,7 +89,7 @@ namespace ApplesGame {
 
 		if (game.isGameFinished) {
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-				
+
 				RestartGame(game);
 			}
 			return;
@@ -108,10 +110,10 @@ namespace ApplesGame {
 	}
 
 	void UpdateGame(Game& game, float deltaTime) {
-		
+
 		HandlerInput(game);
 
-		if (!game.isGameFinished) {		
+		if (!game.isGameFinished) {
 
 			if (game.isGameMenuOpen) {
 				UpdateUI(game.uiState, game);
@@ -134,17 +136,17 @@ namespace ApplesGame {
 			}
 
 			// Check apples collision
-			for (int i = 0; i < game.numApples; i++) {
-				if (isCirclesCollide(game.player.position, PLAYER_SIZE / 2.f, game.apples[i].position, APPLE_SIZE / 2) && !game.apples[i].isEaten) {
+			for (Apple& apple : game.apples) {
+				if (isCirclesCollide(game.player.position, PLAYER_SIZE / 2.f, apple.position, APPLE_SIZE / 2) && !apple.isEaten) {
 					PlayAppleEatSound(game);
 					// Behavior depending on the gamemode
 					if (game.gameMode & GameMode::LimitedApples) {
 						--game.numEatenApples;
-						game.apples[i].isEaten = true;
+						apple.isEaten = true;
 					}
 					else {
 						++game.numEatenApples;
-						game.apples[i].position = GetRandomPositionInScreen(SCREEN_WIDTH, SCREEN_HEIGHT);
+						apple.position = GetRandomPositionInScreen(SCREEN_WIDTH, SCREEN_HEIGHT);
 					}
 					// Speed ​​increase from apple if gamemode on
 					if (game.gameMode >> 2 & GameMode::AcceleratedMovement) {
@@ -156,6 +158,10 @@ namespace ApplesGame {
 		}
 		else {
 			SetBackgroundColor(game.background, sf::Color::Green);
+			if (!game.isLeaderboardOpen) {
+
+			}
+			UpdateLeaderboard(game.leaderboard, game);
 		}
 
 		UpdateUI(game.uiState, game);
@@ -170,8 +176,8 @@ namespace ApplesGame {
 		DrawPlayer(game.player, window);
 
 		// Draw apples
-		for (Apple* ptr = game.apples; ptr < game.apples + game.numApples; ++ptr) {
-			DrawApple(*ptr, window);
+		for (Apple& apple : game.apples) {
+			DrawApple(apple, window);
 		}
 
 		// Draw stones
@@ -194,16 +200,13 @@ namespace ApplesGame {
 		PlayGameOverSound(game);
 		game.isGameFinished = true;
 		game.gameFinishTime = 0.f;
-		OpenLeaderboard(game);
+		SetPlayerResult(game);
+		UpdateLeaderboard(game.leaderboard, game);
 	}
 
 	void InitSound(sf::SoundBuffer& soundBuffer, sf::Sound& sound, float volume) {
 		sound.setBuffer(soundBuffer);
 		sound.setVolume(volume);
-	}
-
-	void DeinitGame(Game& game) {
-		delete[] game.apples;
 	}
 
 	void SetGameMode(Game& game, int mode) {
@@ -222,12 +225,7 @@ namespace ApplesGame {
 	}
 
 	void SetPlayerResult(Game& game) {
+		game.playerResult.name = "Player";
 		game.playerResult.score = game.numEatenApples;
-	}
-
-	void OpenLeaderboard(Game& game) {
-		SetPlayerResult(game);
-		UpdateLeaderboard(game.leaderboard, game);
-		game.isLeaderboardOpen = true;
 	}
 }

@@ -21,18 +21,27 @@ namespace ApplesGame {
 		AcceleratedMovement = 2,
 	};
 
+	enum class GameState {
+		None = 0,
+		Playing,
+		GameOver,
+		LeaderBoard,
+		ExitDialog
+	};
+
 	struct Game {
 
 		int numApples = rand() % 20 + 10;
+		int numStones = rand() % 10 + 1;
 
 		// Player data
 		Player player;
 
 		// Apples data
-		Apple* apples = new Apple[numApples];
+		std::vector <Apple> apples;
 
 		// Stones data
-		Stone stones[NUM_STONES];
+		std::vector<Stone> stones;
 
 		// UI data
 		UIState uiState;
@@ -52,6 +61,7 @@ namespace ApplesGame {
 		bool isGameMenuOpen = true;
 		bool isLeaderboardOpen = false;
 		int gameMode = 0;
+		int playerPlace = -1;
 
 		// Resources
 		sf::Texture playerTexture;
@@ -76,8 +86,8 @@ namespace ApplesGame {
 	void InitSound(sf::SoundBuffer& soundBuffer, sf::Sound& sound, float volume);
 	void PlayAppleEatSound(Game& game);
 	void PlayGameOverSound(Game& game);
-	void DeinitGame(Game& game);
+	//void DeinitGame(Game& game);
 	void SetGameMode(Game& game, int mode);
 	void SetPlayerResult(Game& game);
-	void OpenLeaderboard(Game& game);
+	//void OpenLeaderboard(Game& game);
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 
+
 namespace ApplesGame {
 
 	const std::string RESOURCES_PATH = "Resources/";
@@ -10,11 +11,9 @@ namespace ApplesGame {
 	const float PLAYER_SIZE = 20.f;
 	const float ACCELERATION = 20.f; // Pixels per second per second
 	const float APPLE_SIZE = 20.f;
-	const int NUM_STONES = 5;
 	const float STONE_SIZE = 40.f;
 	const float TIMEOUT = 3.f;
 	const int LEADERBOARD_PLAYERS_COUNT = 5;
 	const int LEADERBOARD_SCREEN_WIDTH = SCREEN_WIDTH / 2;
 	const int LEADERBOARD_SCREEN_HEIGHT = SCREEN_HEIGHT / 2;
-	const std::string NAMES[10] = { "Boss", "BigBoss", "Killer123", "Molodec", "Halk", "Leader", "Zombie", "Max", "Min", "Unknown" };
 }
