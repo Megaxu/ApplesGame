@@ -59,8 +59,5 @@ int main() {
 
 	}
 
-	// Deinitilization
-	DeinitGame(game);
-
 	return 0;
 }
